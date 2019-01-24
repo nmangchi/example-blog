@@ -2,7 +2,6 @@ package com.example.blog.api;
 
 import java.util.Optional;
 
-import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -51,10 +50,10 @@ public class PostRestController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> putPosts(@PathVariable ObjectId id, @RequestBody Post post) {
+	public ResponseEntity<?> putPosts(@PathVariable String id, @RequestBody Post post) {
 		Optional<Post> oldPost = postService.findById(id);
 		if (oldPost.isPresent()) {
-			post.set_id(id);
+			post.setId(id);
 			post = postService.save(post);
 			return ResponseEntity.ok(post);
 		} else {
@@ -63,13 +62,13 @@ public class PostRestController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deletePosts(@PathVariable ObjectId id) {
+	public ResponseEntity<?> deletePosts(@PathVariable String id) {
 		postService.deleteById(id);
 		return (ResponseEntity<?>) ResponseEntity.ok();
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getPostsById(@PathVariable ObjectId id) {
+	public ResponseEntity<?> getPostsById(@PathVariable String id) {
 		Optional<Post> post = postService.findById(id);
 		return ResponseEntity.ok(post);
 	}

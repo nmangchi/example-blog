@@ -1,10 +1,14 @@
 package com.example.blog.model;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import javax.persistence.Id;
 
-import org.bson.types.ObjectId;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -20,10 +24,17 @@ public class Post implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	private ObjectId _id;
+	private String id;
 	private String title;
 	private String contents;
-	private Integer userSeq;
+	@CreatedDate
+	private LocalDateTime wrote;
+	@LastModifiedDate
+	private LocalDateTime modified;
+	@CreatedBy
+	private User writer;
+	@LastModifiedBy
+	private User modifier;
 	
 	protected Post() {}
 	

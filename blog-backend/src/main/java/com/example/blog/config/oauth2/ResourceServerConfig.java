@@ -1,4 +1,4 @@
-package com.example.blog.config;
+package com.example.blog.config.oauth2;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;

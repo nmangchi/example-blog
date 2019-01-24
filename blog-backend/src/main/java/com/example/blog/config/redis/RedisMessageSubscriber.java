@@ -1,4 +1,4 @@
-package com.example.blog.config;
+package com.example.blog.config.redis;
 
 import java.util.ArrayList;
 import java.util.List;

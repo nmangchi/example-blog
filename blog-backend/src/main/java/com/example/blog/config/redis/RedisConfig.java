@@ -1,4 +1,4 @@
-package com.example.blog.config;
+package com.example.blog.config.redis;
 
 import java.net.UnknownHostException;
 

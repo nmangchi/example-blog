@@ -1,4 +1,4 @@
-package com.example.blog.config;
+package com.example.blog.config.oauth2;
 
 import javax.sql.DataSource;
 
