@@ -29,8 +29,7 @@ spring:
     - classpath:db/migration/{vendor}
   jpa:
     hibernate:
-      ddl-auto: update
-server:
+      ddl-auto: updateserver:
   port: 9090
 logging:
   level:

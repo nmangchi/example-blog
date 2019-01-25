@@ -32,9 +32,9 @@ public class Post implements Serializable {
 	@LastModifiedDate
 	private LocalDateTime modified;
 	@CreatedBy
-	private User writer;
+	private Integer writer;
 	@LastModifiedBy
-	private User modifier;
+	private Integer modifier;
 	
 	protected Post() {}
 	

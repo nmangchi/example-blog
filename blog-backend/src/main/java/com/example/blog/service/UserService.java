@@ -27,18 +27,21 @@ public class UserService implements UserDetailsService {
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-		log.debug("### loadUserByUsername userid : {}", userId);
-		Optional<User> user = userRepository.findByUserId(userId);
+	public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
+		log.debug("### loadUserByUsername loginId : {}", loginId);
+		Optional<User> user = userRepository.findByLoginId(loginId);
 		if (!user.isPresent()) {
-			throw new UsernameNotFoundException("Invalid userid");
+			throw new UsernameNotFoundException("Invalid login id");
 		}
 		
-		return new org.springframework.security.core.userdetails.User(user.get().getName(), user.get().getPassword(), getAuthority());
+		return new org.springframework.security.core.userdetails.User(user.get().getLoginId(), user.get().getLoginPassword(), getAuthority());
 	}
 
 	private Collection<? extends GrantedAuthority> getAuthority() {
 		return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
 	}
 
+	public Optional<User> findByLoginId(String loginId) {
+		return userRepository.findByLoginId(loginId);
+	}
 }

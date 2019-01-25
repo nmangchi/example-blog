@@ -1,5 +1,6 @@
 package com.example.blog.api;
 
+import java.security.Principal;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -22,8 +23,11 @@ import com.example.blog.model.Post;
 import com.example.blog.model.Search;
 import com.example.blog.service.PostService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping("/api/posts")
+@Slf4j
 public class PostRestController {
 
 	private final PostService postService;
@@ -40,9 +44,12 @@ public class PostRestController {
 	
 	@GetMapping("")
 	public ResponseEntity<?> getPosts(
+			Principal principal,
 			@RequestParam(required=false, defaultValue = AppConsts.Page.INIT) int page,
 			@RequestParam(required=false, defaultValue = AppConsts.Page.ROW_SIZE) int size,
 			Search search) {
+		log.debug("####### principal.getName() : {}", principal.getName());
+		
 		Sort sort = Sort.by(Direction.DESC, "_id");
 		PageRequest pageRequest = PageRequest.of(page, size, sort);
 		Page<Post> posts = postService.findAll(search.to(Post.class), pageRequest);

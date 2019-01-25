@@ -1,13 +1,13 @@
 create table user(
 	seq int primary key,
-	id varchar(20) not null,
-	password varchar(100) not null,
+	login_id varchar(20) not null,
+	login_password varchar(100) not null,
 	name varchar(30) not null,
 	nickname varchar(60) null
 );
 create sequence SEQ_USER;
-insert into user(seq, id, password, name, nickname) 
-values (NEXTVAL('SEQ_USER'), 'user1','$2a$10$Dx76JC2fF1qhumYw2Br32uPCMTSDNva0oBcyc/v1uWFNTTGuv6nzi','�쑀��1','蹂꾨챸1');
+insert into user(seq, login_id, login_password, name, nickname) 
+values (NEXTVAL('SEQ_USER'), 'user1','$2a$10$Dx76JC2fF1qhumYw2Br32uPCMTSDNva0oBcyc/v1uWFNTTGuv6nzi','유저1','닉네임1');
 
 create table oauth_client_details (
   client_id VARCHAR(256) PRIMARY KEY,

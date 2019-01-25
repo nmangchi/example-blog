@@ -2,6 +2,7 @@ package com.example.blog.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,15 +27,17 @@ public class User implements Serializable {
 	@SequenceGenerator(name="SEQ_USER")
 	@GeneratedValue(generator="SEQ_USER", strategy=GenerationType.SEQUENCE)
 	private Integer seq;
-	private String id;
-	private String password;
+	@Column(name="login_id")
+	private String loginId;
+	@Column(name="login_password")
+	private String loginPassword;
 	private String name;
 	private String nickname;
 	
 	protected User() {}
 	
-	public User(String id, String name, String nickname) {
-		this.id = id;
+	public User(String loginId, String name, String nickname) {
+		this.loginId = loginId;
 		this.name = name;
 		this.nickname = nickname;
 	}

@@ -42,9 +42,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 			.authorizeRequests()
 				.antMatchers("/oauth/token", "/h2-console/**").permitAll()
-				.anyRequest().authenticated()
-				.and()
-			.formLogin();
+				.anyRequest().authenticated();
+//				.and()
+//			.formLogin();
 	}
 
 	@Bean
