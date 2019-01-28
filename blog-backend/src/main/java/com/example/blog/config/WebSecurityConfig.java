@@ -31,6 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		web.ignoring().antMatchers(
 				"/v2/api-docs", "/configuration/ui", "/configuration/security"
 				, "/swagger-resources/**", "/webjars/**", "/swagger-ui.html"
+				, "/h2-console/**"
 				);
 	}
 	
@@ -41,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.headers().frameOptions().sameOrigin()
 				.and()
 			.authorizeRequests()
-				.antMatchers("/oauth/token", "/h2-console/**").permitAll()
+				.antMatchers("/oauth/token").permitAll()
 				.anyRequest().authenticated();
 //				.and()
 //			.formLogin();

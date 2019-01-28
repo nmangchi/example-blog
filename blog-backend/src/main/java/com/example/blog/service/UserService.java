@@ -34,7 +34,7 @@ public class UserService implements UserDetailsService {
 			throw new UsernameNotFoundException("Invalid login id");
 		}
 		
-		return new org.springframework.security.core.userdetails.User(user.get().getLoginId(), user.get().getLoginPassword(), getAuthority());
+		return new org.springframework.security.core.userdetails.User(user.get().getSeq().toString(), user.get().getLoginPassword(), getAuthority());
 	}
 
 	private Collection<? extends GrantedAuthority> getAuthority() {

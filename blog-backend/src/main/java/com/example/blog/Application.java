@@ -2,13 +2,11 @@ package com.example.blog;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @SpringBootApplication
-@EnableCaching
 @Controller
 public class Application {
 	public static void main(String[] args) {

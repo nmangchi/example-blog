@@ -1,40 +1,33 @@
 package com.example.blog.model;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
+import javax.persistence.SequenceGenerator;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper=true)
 @ToString
 @Getter
 @Setter
-public class Post implements Serializable {
+@Entity
+public class Post extends Auditable<Integer> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	private String id;
+	@SequenceGenerator(name="SEQ_POST", allocationSize=1)
+	@GeneratedValue(generator="SEQ_POST", strategy=GenerationType.SEQUENCE)
+	private Integer seq;
 	private String title;
 	private String contents;
-	@CreatedDate
-	private LocalDateTime wrote;
-	@LastModifiedDate
-	private LocalDateTime modified;
-	@CreatedBy
-	private Integer writer;
-	@LastModifiedBy
-	private Integer modifier;
 	
 	protected Post() {}
 	

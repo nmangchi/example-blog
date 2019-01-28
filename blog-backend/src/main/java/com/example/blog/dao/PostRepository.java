@@ -2,13 +2,13 @@ package com.example.blog.dao;
 
 import java.util.Optional;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.example.blog.model.Post;
 
 @Repository
-public interface PostRepository extends MongoRepository<Post, String> {
+public interface PostRepository extends JpaRepository<Post, Integer> {
 
 	Optional<Post> findByTitle(String keyword);
 	
