@@ -25,7 +25,7 @@ public class PostService {
 		Page<Post> posts = null;
 		if (post != null) {
 			ExampleMatcher exampleMatcher = ExampleMatcher.matchingAll()
-					.withStringMatcher(StringMatcher.REGEX);
+					.withStringMatcher(StringMatcher.CONTAINING);
 			posts = postRepository.findAll(Example.of(post, exampleMatcher), pageRequest);
 		} else {
 			posts = postRepository.findAll(pageRequest);
@@ -40,8 +40,6 @@ public class PostService {
 	public Optional<Post> modify(Post post) {
 		Optional<Post> oldPost = postRepository.findById(post.getSeq());
 		if (oldPost.isPresent()) {
-			post.setWriter(oldPost.get().getWriter());
-			post.setWrote(oldPost.get().getWrote());
 			return Optional.of(postRepository.save(post));
 		} else {
 			return Optional.empty();

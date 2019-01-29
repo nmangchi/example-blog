@@ -14,7 +14,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @EqualsAndHashCode(callSuper=true)
-@ToString
+@ToString(callSuper=true)
 @Getter
 @Setter
 @Entity

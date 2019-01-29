@@ -8,7 +8,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,10 +38,6 @@ public class PostRestController {
 
 	@PostMapping("")
 	public ResponseEntity<?> postPosts(Principal principal, @RequestBody Post post) {
-		log.debug("####### principal : {}", principal);
-		log.debug("####### principal.getName() : {}", principal.getName());
-		log.debug("####### context auth : {}", SecurityContextHolder.getContext().getAuthentication());
-		
 		post = postService.save(post);
 		return ResponseEntity.ok(post);
 	}
@@ -60,7 +55,8 @@ public class PostRestController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> putPosts(@PathVariable String id, @RequestBody Post post) {
+	public ResponseEntity<?> putPosts(@PathVariable Integer id, @RequestBody Post post) {
+		post.setSeq(id);
 		Optional<Post> newPost = postService.modify(post);
 		if (newPost.isPresent()) {
 			return ResponseEntity.ok(newPost);

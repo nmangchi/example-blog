@@ -23,13 +23,14 @@ import lombok.ToString;
 @Setter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class Auditable<T> {
+public abstract class Auditable<T> {
 	@CreatedDate
+	@Column(updatable=false)
 	private LocalDateTime wrote;
 	@LastModifiedDate
 	private LocalDateTime modified;
 	@CreatedBy
-	@Column(name="writer_seq")
+	@Column(name="writer_seq",updatable=false)
 	private T writer;
 	@LastModifiedBy
 	@Column(name="modifier_seq")
