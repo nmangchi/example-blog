@@ -38,7 +38,7 @@ public class PostService {
 	}
 	
 	public Optional<Post> modify(Post post) {
-		Optional<Post> oldPost = postRepository.findById(post.getSeq());
+		Optional<Post> oldPost = postRepository.findBySeq(post.getSeq());
 		if (oldPost.isPresent()) {
 			return Optional.of(postRepository.save(post));
 		} else {
@@ -46,11 +46,11 @@ public class PostService {
 		}
 	}
 
-	public Optional<Post> findById(Integer id) {
-		return postRepository.findById(id);
+	public Optional<Post> findBySeq(Integer seq) {
+		return postRepository.findBySeq(seq);
 	}
 
-	public void deleteById(Integer id) {
-		postRepository.deleteById(id);
+	public void deleteBySeq(Integer seq) {
+		postRepository.deleteBySeq(seq);
 	}
 }

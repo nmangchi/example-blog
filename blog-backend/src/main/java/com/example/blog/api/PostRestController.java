@@ -1,8 +1,8 @@
 package com.example.blog.api;
 
-import java.security.Principal;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -23,28 +23,21 @@ import com.example.blog.model.Post;
 import com.example.blog.model.Search;
 import com.example.blog.service.PostService;
 
-import lombok.extern.slf4j.Slf4j;
-
 @RestController
 @RequestMapping("/api/posts")
-@Slf4j
 public class PostRestController {
 
-	private final PostService postService;
-
-	public PostRestController(PostService postService) {
-		this.postService = postService;
-	}
+	@Autowired
+	private PostService postService;
 
 	@PostMapping("")
-	public ResponseEntity<?> postPosts(Principal principal, @RequestBody Post post) {
+	public ResponseEntity<Post> postPosts(@RequestBody Post post) {
 		post = postService.save(post);
 		return ResponseEntity.ok(post);
 	}
 	
 	@GetMapping("")
-	public ResponseEntity<?> getPosts(
-			Principal principal,
+	public ResponseEntity<Page<Post>> getPosts(
 			@RequestParam(required=false, defaultValue = AppConsts.Page.INIT) int page,
 			@RequestParam(required=false, defaultValue = AppConsts.Page.ROW_SIZE) int size,
 			Search search) {
@@ -54,9 +47,9 @@ public class PostRestController {
 		return ResponseEntity.ok(posts);
 	}
 
-	@PutMapping("/{id}")
-	public ResponseEntity<?> putPosts(@PathVariable Integer id, @RequestBody Post post) {
-		post.setSeq(id);
+	@PutMapping("/{seq}")
+	public ResponseEntity<?> putPosts(@PathVariable Integer seq, @RequestBody Post post) {
+		post.setSeq(seq);
 		Optional<Post> newPost = postService.modify(post);
 		if (newPost.isPresent()) {
 			return ResponseEntity.ok(newPost);
@@ -65,15 +58,15 @@ public class PostRestController {
 		}
 	}
 	
-	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deletePosts(@PathVariable Integer id) {
-		postService.deleteById(id);
+	@DeleteMapping("/{seq}")
+	public ResponseEntity<?> deletePosts(@PathVariable Integer seq) {
+		postService.deleteBySeq(seq);
 		return (ResponseEntity<?>) ResponseEntity.ok();
 	}
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<?> getPostsById(@PathVariable Integer id) {
-		Optional<Post> post = postService.findById(id);
+	@GetMapping("/{seq}")
+	public ResponseEntity<?> getPostsBySeq(@PathVariable Integer seq) {
+		Optional<Post> post = postService.findBySeq(seq);
 		return ResponseEntity.ok(post);
 	}
 }
