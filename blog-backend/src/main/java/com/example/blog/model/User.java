@@ -14,12 +14,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@EqualsAndHashCode
-@ToString
+@EqualsAndHashCode(callSuper=true)
+@ToString(callSuper=true)
 @Getter
 @Setter
 @Entity
-public class User implements Serializable {
+public class User extends Auditable<Integer> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
