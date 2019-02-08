@@ -1,5 +1,6 @@
 package com.example.blog.api;
 
+import java.security.Principal;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,11 @@ import com.example.blog.model.Search;
 import com.example.blog.model.User;
 import com.example.blog.service.UserService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping("/api/users")
+@Slf4j
 public class UserRestController {
 
 	@Autowired
@@ -65,8 +69,16 @@ public class UserRestController {
 	}
 	
 	@GetMapping("/{seq}")
-	public ResponseEntity<?> getPostsBySeq(@PathVariable Integer seq) {
+	public ResponseEntity<?> getUsersBySeq(@PathVariable Integer seq) {
 		Optional<User> user = userService.findBySeq(seq);
+		return ResponseEntity.ok(user);
+	}
+	
+	@GetMapping("/info")
+	public ResponseEntity<?> getUsersInfoBySeq(Principal principal) {
+		log.debug("############ principal : {}", principal);
+		log.debug("############ principal.getName() : {}", principal.getName());
+		Optional<User> user = userService.findBySeq(Integer.parseInt(principal.getName()));
 		return ResponseEntity.ok(user);
 	}
 }
