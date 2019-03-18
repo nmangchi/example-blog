@@ -21,24 +21,24 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.example.blog.dao.PostRepository;
-import com.example.blog.dao.PostRepositoryIntegrationTests;
-import com.example.blog.model.Post;
+import com.example.blog.dao.ArticleRepository;
+import com.example.blog.dao.ArticleRepositoryIntegrationTests;
+import com.example.blog.model.Article;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class PostServiceTests {
+public class ArticleServiceTests {
 
 	@Autowired
-	private PostService postService;
+	private ArticleService articleService;
 	
 	@MockBean
-	private PostRepository postRepository;
+	private ArticleRepository articleRepository;
 	
-	private static final List<Post> posts = PostRepositoryIntegrationTests.dummyPosts;
+	private static final List<Article> articles = ArticleRepositoryIntegrationTests.dummyArticles;
 	
 	@Test
-	public void find_all_with_post() {
+	public void find_all_with_article() {
 		int page = 0;
 		int size = 3;
 		Sort sort = Sort.by(Direction.DESC, "wrote");
@@ -47,18 +47,18 @@ public class PostServiceTests {
 		ExampleMatcher exampleMatcher = ExampleMatcher.matchingAll()
 				.withStringMatcher(StringMatcher.CONTAINING);
 		
-		Post post = new Post("용기를", null);
+		Article article = new Article("용기를", null);
 		
-		List<Post> filtered = posts.stream()
-				.filter(p -> p.getTitle().contains(post.getTitle()))
+		List<Article> filtered = articles.stream()
+				.filter(p -> p.getTitle().contains(article.getTitle()))
 				.collect(Collectors.toList());
 		
-		PageImpl<Post> pages = new PageImpl<Post>(filtered, pageRequest, filtered.size());
+		PageImpl<Article> pages = new PageImpl<Article>(filtered, pageRequest, filtered.size());
 		
-		given(postRepository.findAll(Example.of(post, exampleMatcher), pageRequest))
+		given(articleRepository.findAll(Example.of(article, exampleMatcher), pageRequest))
 			.willReturn(pages);
 		
-		Page<Post> posts = postService.findAll(post, pageRequest);
-		assertEquals(filtered.size(), posts.getTotalElements());
+		Page<Article> articles = articleService.findAll(article, pageRequest);
+		assertEquals(filtered.size(), articles.getTotalElements());
 	}
 }

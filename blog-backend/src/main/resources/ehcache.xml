@@ -12,7 +12,7 @@
 	
 	<persistence directory="./cache"/>
 	
-	<cache alias="posts">
+	<cache alias="articles">
 		<expiry>
 			<ttl unit="seconds">60</ttl>
 		</expiry>

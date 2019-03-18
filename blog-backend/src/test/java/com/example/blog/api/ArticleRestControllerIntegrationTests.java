@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @IfProfileValue(name="test-groups", value="integration")
 @Slf4j
-public class PostRestControllerIntegrationTests {
+public class ArticleRestControllerIntegrationTests {
 
 	@LocalServerPort
 	private int port;
@@ -42,7 +42,7 @@ public class PostRestControllerIntegrationTests {
 
 	@Test
 	@Repeat(10)
-	public void post_save() {
+	public void article_save() {
 		String[] titles = {"맥심", "모카골드 마일드", "프라빈 커피"};
 
 		Random rand = new Random();
@@ -56,7 +56,7 @@ public class PostRestControllerIntegrationTests {
 			.contentType(ContentType.JSON)
 			.body("{ \"title\" : \"" + title + "\", \"contents\" : \"" + contents + "\"}")
 		.when()
-			.post("/api/posts")
+			.post("/api/articles")
 		.then()
 			.statusCode(HttpStatus.SC_OK)
 			.body("title", equalTo(title),
@@ -64,9 +64,9 @@ public class PostRestControllerIntegrationTests {
 	}
 	
 	@Test
-	public void post_list() {
+	public void article_list() {
 		when()
-			.get("/api/posts")
+			.get("/api/articles")
 		.then()
 			.statusCode(HttpStatus.SC_OK)
 			.body("title", hasItems("테스트 타이틀"),
@@ -75,12 +75,12 @@ public class PostRestControllerIntegrationTests {
 	
 	@SuppressWarnings("unchecked")
 	@Test
-	public void post_list_with_page() {
+	public void article_list_with_page() {
 		given()
 			.param("page", "2")
 			.param("size", "5")
 		.when()
-			.get("/api/posts")
+			.get("/api/articles")
 		.then()
 			.statusCode(HttpStatus.SC_OK)
 			.body("content.title", hasItems(startsWith("모카골드")),
@@ -88,20 +88,20 @@ public class PostRestControllerIntegrationTests {
 	}
 	
 	@Test
-	public void post_list_all_response() {
-		String posts = when().get("/api/posts").asString();
-		log.debug("### posts : {}", posts);
+	public void article_list_all_response() {
+		String articles = when().get("/api/articles").asString();
+		log.debug("### articles : {}", articles);
 	}
 	
 	@Test
-	public void post_list_response() {	
-		String posts = given()
+	public void article_list_response() {	
+		String articles = given()
 					.param("page", "0")
 					.param("size", "5")
 //					.body("{ \"title\" : \"맥심\", \"contents\" : \"프라빈\" }")
 					.body("{ \"title\" : \"맥심\" }")
 					.contentType(ContentType.JSON)
-				.when().get("/api/posts").asString();
-		log.debug("### posts with param : {}", posts);
+				.when().get("/api/articles").asString();
+		log.debug("### articles with param : {}", articles);
 	}
 }

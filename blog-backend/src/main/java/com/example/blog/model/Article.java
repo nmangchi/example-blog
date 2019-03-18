@@ -20,26 +20,26 @@ import lombok.ToString;
 @Getter
 @Setter
 @Entity
-public class Post extends Auditable<Integer> implements Serializable {
+public class Article extends Auditable<Integer> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@SequenceGenerator(name="SEQ_POST", allocationSize=1)
-	@GeneratedValue(generator="SEQ_POST", strategy=GenerationType.SEQUENCE)
+	@SequenceGenerator(name="SEQ_ARTICLE", allocationSize=1)
+	@GeneratedValue(generator="SEQ_ARTICLE", strategy=GenerationType.SEQUENCE)
 	@JsonIgnore
 	private Integer seq;
 	private String title;
 	private String contents;
 	
-	protected Post() {}
+	protected Article() {}
 	
-	public Post(String title, String contents) {
+	public Article(String title, String contents) {
 		this.title = title;
 		this.contents = contents;
 	}
 	
-	public static Post of(String title, String contents) {
-		return new Post(title, contents);
+	public static Article of(String title, String contents) {
+		return new Article(title, contents);
 	}
 }

@@ -13,7 +13,7 @@ values (NEXTVAL('SEQ_USER'), 'user2','$2a$10$E7YTaxiqM/SRH9oddoKnmOFQrCBjy.r7PXV
 insert into user(seq, login_id, login_password, name, nickname) 
 values (NEXTVAL('SEQ_USER'), 'user3','$2a$10$q9NgqylMpgTrh95a4BnH8uIjt7DOEq60NJLVDl5KlWADic53jH5g6','유저3','닉네임3');
 
-create table post(
+create table article(
 	seq int primary key,
 	title varchar(200) not null,
 	contents CLOB not null,
@@ -22,7 +22,7 @@ create table post(
 	writer_seq int not null,
 	modifier_seq int null
 );
-create sequence SEQ_POST start with 1 increment by 1 nocache;
+create sequence SEQ_ARTICLE start with 1 increment by 1 nocache;
 
 create table oauth_client_details (
   client_id VARCHAR(256) PRIMARY KEY,

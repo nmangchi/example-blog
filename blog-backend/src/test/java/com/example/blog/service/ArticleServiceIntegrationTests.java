@@ -22,41 +22,41 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.blog.dao.PostRepositoryIntegrationTests;
-import com.example.blog.model.Post;
+import com.example.blog.dao.ArticleRepositoryIntegrationTests;
+import com.example.blog.model.Article;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @IfProfileValue(name="test-groups", value="integration")
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class PostServiceIntegrationTests {
+public class ArticleServiceIntegrationTests {
 
 	@Autowired
-	private PostService postService;
+	private ArticleService articleService;
 	
-	private static final List<Post> posts = PostRepositoryIntegrationTests.dummyPosts;
+	private static final List<Article> articles = ArticleRepositoryIntegrationTests.dummyArticles;
 	
 	@Test
 	@Transactional
 	@Rollback
 	@WithMockUser(value="1", authorities= {"USER"})
-	public void A_save_posts() {
-		for (Post post : posts) {
-			postService.save(post);
+	public void A_save_articles() {
+		for (Article article : articles) {
+			articleService.save(article);
 		}
 	}
 	
 	@Test
-	public void find_all_with_post() {
+	public void find_all_with_article() {
 		int page = 0;
 		int size = 3;
 		Sort sort = Sort.by(Direction.DESC, "wrote");
 		PageRequest pageRequest = PageRequest.of(page, size, sort);
 		
-		Post post = Post.of("용기를", null);
-		Page<Post> posts = postService.findAll(post, pageRequest);
+		Article article = Article.of("용기를", null);
+		Page<Article> articles = articleService.findAll(article, pageRequest);
 		
-		assertNotEquals(0, posts.getTotalElements());
-		assertThat(posts.getContent().get(0).getTitle(), containsString(post.getTitle()));
+		assertNotEquals(0, articles.getTotalElements());
+		assertThat(articles.getContent().get(0).getTitle(), containsString(article.getTitle()));
 	}
 }

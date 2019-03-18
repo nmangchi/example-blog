@@ -22,41 +22,41 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.example.blog.model.Post;
-import com.example.blog.service.PostService;
+import com.example.blog.model.Article;
+import com.example.blog.service.ArticleService;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(PostRestController.class)
-public class PostRestControllerTests {
+@WebMvcTest(ArticleRestController.class)
+public class ArticleRestControllerTests {
 
 	@Autowired
 	private MockMvc mvc;
 	
 	@MockBean
-	private PostService postService;
+	private ArticleService articleService;
 	
-	private List<Post> posts = null;
+	private List<Article> articles = null;
 	
 	@Before
 	public void before() {
-		posts = new ArrayList<>();
-		posts.add(Post.of("테스트 타이틀 1", "테스트 내용 1"));
-		posts.add(Post.of("테스트 타이틀 2", "테스트 내용 2"));
+		articles = new ArrayList<>();
+		articles.add(Article.of("테스트 타이틀 1", "테스트 내용 1"));
+		articles.add(Article.of("테스트 타이틀 2", "테스트 내용 2"));
 	}
 	
 	@Test
-	public void post_list() throws Exception {
+	public void article_list() throws Exception {
 		int page = 0;
 		int size = 3;
 		Sort sort = Sort.by(Direction.DESC, "_id");
 		PageRequest pageRequest = PageRequest.of(page, size, sort);
 		
-		PageImpl<Post> pages = new PageImpl<Post>(posts, pageRequest, posts.size());
+		PageImpl<Article> pages = new PageImpl<Article>(articles, pageRequest, articles.size());
 		
-		given(postService.findAll(null, pageRequest))
+		given(articleService.findAll(null, pageRequest))
 			.willReturn(pages);
 		
-		mvc.perform(get("/api/posts"))
+		mvc.perform(get("/api/articles"))
 			.andExpect(status().isOk())
 			.andExpect(content().string(containsString("타이틀")))
 			.andExpect(content().string(containsString("내용")))
