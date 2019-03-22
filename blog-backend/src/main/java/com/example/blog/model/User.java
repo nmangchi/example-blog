@@ -28,10 +28,8 @@ public class User extends Auditable<Integer> implements Serializable {
 	@Id
 	@SequenceGenerator(name="SEQ_USER", allocationSize=1)
 	@GeneratedValue(generator="SEQ_USER", strategy=GenerationType.SEQUENCE)
-//	@JsonIgnore
 	private Integer seq;
 	@Column(name="login_id")
-//	@JsonIgnore
 	private String loginId;
 	@Column(name="login_password")
 	@JsonIgnore

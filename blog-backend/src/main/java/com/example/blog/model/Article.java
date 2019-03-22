@@ -8,8 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,7 +25,6 @@ public class Article extends Auditable<Integer> implements Serializable {
 	@Id
 	@SequenceGenerator(name="SEQ_ARTICLE", allocationSize=1)
 	@GeneratedValue(generator="SEQ_ARTICLE", strategy=GenerationType.SEQUENCE)
-	@JsonIgnore
 	private Integer seq;
 	private String title;
 	private String contents;

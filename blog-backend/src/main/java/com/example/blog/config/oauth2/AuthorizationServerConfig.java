@@ -7,12 +7,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
+import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
@@ -24,6 +27,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	private final String SIGNING_KEY = "$2a$10$n.KgpTJLzAkuzXTkWExjh.wY59sUyeoZgpMtm40HZAAH/Y/SUs1RC";
 	
 	@Autowired
+	private UserDetailsService userDetailsService;
+	
+	@Autowired
 	private AuthenticationManager authenticationManager;
 
 	@Autowired
@@ -31,7 +37,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	
 	@Bean
 	public JwtAccessTokenConverter accessTokenConverter() {
+		DefaultUserAuthenticationConverter userAuthenticationConverter = new DefaultUserAuthenticationConverter();
+		userAuthenticationConverter.setUserDetailsService(userDetailsService);
+		
+		DefaultAccessTokenConverter accessTokenConverter = new DefaultAccessTokenConverter();
+		accessTokenConverter.setUserTokenConverter(userAuthenticationConverter);
+		
 		JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+		converter.setAccessTokenConverter(accessTokenConverter);
 		converter.setSigningKey(SIGNING_KEY);
 		return converter;
 	}

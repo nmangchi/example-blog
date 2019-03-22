@@ -8,13 +8,18 @@ import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.example.blog.model.CustomUser;
+
 @Configuration
 @EnableJpaAuditing(auditorAwareRef="auditorProvider")
 public class JpaConfig {
 
 	@Bean
 	public AuditorAware<Integer> auditorProvider() {
-		return () -> Optional
-				.ofNullable(Integer.parseInt(SecurityContextHolder.getContext().getAuthentication().getName()));
+		return () -> {
+			Optional<CustomUser> customUser = Optional
+					.ofNullable((CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+			return Optional.ofNullable(customUser.get().getSeq());
+		};
 	}
 }

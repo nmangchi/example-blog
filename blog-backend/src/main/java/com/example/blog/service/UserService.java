@@ -18,9 +18,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.example.blog.dao.UserRepository;
+import com.example.blog.model.CustomUser;
 import com.example.blog.model.User;
 
-@Service
+@Service("userDetailsService")
 public class UserService implements UserDetailsService {
 
 	@Autowired
@@ -33,7 +34,7 @@ public class UserService implements UserDetailsService {
 			throw new UsernameNotFoundException("Invalid login id");
 		}
 		
-		return new org.springframework.security.core.userdetails.User(user.get().getSeq().toString(), user.get().getLoginPassword(), getAuthority());
+		return new CustomUser(user.get().getSeq(), user.get().getLoginId(), user.get().getLoginPassword(), getAuthority());
 	}
 
 	private Collection<? extends GrantedAuthority> getAuthority() {
