@@ -1,5 +1,5 @@
 export default {
-  SAVE_USER (state, payload) {
-    state.user = payload
+  SAVE_TOKEN (state, payload) {
+    state.token = payload
   }
 }

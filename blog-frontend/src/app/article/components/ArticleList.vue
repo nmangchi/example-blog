@@ -2,7 +2,20 @@
   <div>
     <v-container grid-list-lg>
       <v-layout row wrap>
-        <v-flex xs12>
+        <v-flex xs12 v-for="article in articles" :key="article.id">
+          <v-card color="cyan darken-2" class="white--text">
+            <v-card-title>
+              <div>
+                <div class="headline">{{article.title}}</div>
+                <span v-html="article.contents"></span>
+              </div>
+            </v-card-title>
+            <v-card-actions>
+              <v-btn flat dark>Listen now</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-flex>
+        <!-- <v-flex xs12>
           <v-card color="blue-grey darken-2">
             <v-card-title>
               <div>
@@ -80,23 +93,37 @@
               <v-icon>star_border</v-icon>
             </v-card-actions>
           </v-card>
-        </v-flex>
+        </v-flex> -->
       </v-layout>
     </v-container>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
+import { mapGetters, mapState, mapActions } from 'vuex'
 
 export default {
   name: 'article-list',
+  data: () => ({
+    articles: []
+  }),
   computed: {
     ...mapGetters([
-      'accessToken'
     ]),
     ...mapState({
     })
+  },
+  mounted () {
+    this.loadArticles()
+      .then((value) => {
+        console.log('########### ' + JSON.stringify(value))
+        this.articles = value.content
+      })
+  },
+  methods: {
+    ...mapActions([
+      'loadArticles'
+    ])
   }
 }
 </script>

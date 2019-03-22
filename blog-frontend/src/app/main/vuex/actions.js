@@ -1,14 +1,13 @@
-import { getAccessToken } from '../api'
+import { getToken } from '../api'
 
 export const login = ({ commit }, data) => {
-  console.log('####### login ' + data.username + ', ' + data.password)
-  getAccessToken(data)
-    .then((value) => {
-      commit('SAVE_USER', value)
-      console.log('## value : ' + value.access_token)
+  return getToken(data)
+    .then((token) => {
+      commit('SAVE_TOKEN', token)
+      console.log('## token : ' + JSON.stringify(token))
       return true
     }).catch((err) => {
-      console.log(err)
+      console.log('get token error : ' + err)
+      return Promise.reject(err)
     })
-  return false
 }

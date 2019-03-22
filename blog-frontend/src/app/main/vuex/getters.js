@@ -1,5 +1,5 @@
 export default {
-  accessToken: (state) => () => {
-    return state.user && state.user.access_token ? state.user.access_token : false
+  token: (state) => () => {
+    return state.token && state.token.access_token ? state.token.access_token : false
   }
 }

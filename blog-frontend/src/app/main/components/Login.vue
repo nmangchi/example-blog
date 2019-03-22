@@ -8,6 +8,7 @@
                 <v-toolbar-title>Login form</v-toolbar-title>
                 <v-spacer></v-spacer>
               </v-toolbar>
+              <v-alert :value="!success" type="error">{{error_msg}}</v-alert>
               <v-form @submit.prevent="processLogin">
               <v-card-text>
                   <v-text-field v-model="username" prepend-icon="person" name="username" label="Username" type="text"></v-text-field>
@@ -32,7 +33,9 @@ export default {
   name: 'login',
   data: () => ({
     username: '',
-    password: ''
+    password: '',
+    success: true,
+    error_msg: 'login failed'
   }),
   props: {
     source: String
@@ -43,11 +46,17 @@ export default {
     ]),
     processLogin () {
       let user = { username: this.username, password: this.password }
-      console.log('processLogin')
-      console.log('username : ' + this.username + ', password : ' + this.password)
-      if (this.login(user)) {
-        this.$router.push({ name: 'home' })
-      }
+      this.login(user)
+        .then((value) => {
+          this.success = value
+          if (value) {
+            this.$router.push({ name: 'home' })
+          }
+        })
+        .catch((err) => {
+          this.error_msg = err.toString()
+          this.success = false
+        })
     }
   }
 }
